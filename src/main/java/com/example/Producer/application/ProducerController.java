@@ -1,7 +1,6 @@
-package com.example.HallService.resources;
+package com.example.Producer.application;
 
-import com.example.HallService.models.Order;
-import com.example.HallService.models.OrderGenerator;
+import com.example.Producer.models.Object;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -12,13 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/hall")
-public class HallServiceController {
-
-    @PostMapping("/order")
-    public ResponseEntity orderReady(@RequestBody Order order){
-        Logger logger = LoggerFactory.getLogger(HallServiceController.class);
-        logger.info("Order " + order.getId() + " has been received from server3.");
+@RequestMapping("/producer")
+public class ProducerController {
+    @PostMapping("/object")
+    public ResponseEntity orderReady(@RequestBody Object object){
+        Logger logger = LoggerFactory.getLogger(ProducerController.class);
+        logger.info("Order " + object.getId() + " has been received from aggregator server.");
         return new ResponseEntity(HttpStatus.OK);
     }
 

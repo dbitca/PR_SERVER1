@@ -1,17 +1,15 @@
-package com.example.HallService.models;
+package com.example.Producer.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
-
-public class Order {
+public class Object {
     private int id;
-    public Order() {
+    public Object() {
     }
 
     @JsonCreator
-    public Order(@JsonProperty("id") int id) {
+    public Object(@JsonProperty("id") int id) {
         this.id = id;
     }
 
