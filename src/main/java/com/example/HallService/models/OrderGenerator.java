@@ -17,18 +17,7 @@ public class OrderGenerator {
 
     public static Order GenerateOrder(){
         var orderId = OrderId++;
-        Random random = new Random();
-        var itemsCapacity = (int)Math.floor(Math.random()*(3-1+1)+1);
-        var items = new ArrayList<Integer>(itemsCapacity);
-       // System.out.println("Initialize order");
-        for(int i =0; i < itemsCapacity; i++){
-            var randomItem = random.nextInt(3-1+1)+1;
-            items.add(randomItem);
-        }
-        int priority = random.nextInt(5 - 1)+ 1;
-        int maxwait = random.nextInt(45 - 1) +1;
-
-        var order = new Order(orderId, items, priority, maxwait);
+        var order = new Order(orderId);
         //System.out.println("Generated order " + order.getId());
         return order;
     }
