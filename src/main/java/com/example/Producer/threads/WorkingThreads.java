@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
+import java.util.concurrent.Semaphore;
 
 public class WorkingThreads implements Runnable{
 
@@ -16,6 +17,8 @@ public class WorkingThreads implements Runnable{
     static ObjectProducer objectProducer = new ObjectProducer();
     static HttpHeaders headers = new HttpHeaders();
     static RestTemplate restTemplate = new RestTemplate();
+    static int permits = 3;
+    public static final Semaphore semaphore = new Semaphore (permits, true);
 
     public WorkingThreads(String thread){
         threadname = thread;
@@ -26,14 +29,32 @@ public class WorkingThreads implements Runnable{
     @Override
     public void run() {
         while(true){
-            try
+            try {
+                semaphore.acquire();
             {
                 var object = ObjectProducer.GenerateObject();
                 sendObjects(object);
-                Thread.sleep(3000);
-            } catch (Exception e) {
+                Thread.sleep(500);
+            }
+            } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            finally {
+                semaphore.release();
+            }
+        }
+    }
+
+    public static void Signal (boolean signal) {
+        if (signal == true){
+            System.out.println("Thread stopped");
+            for (int i=0; i < permits; i++){
+                new BlockingThreads("Blocking thread " + String.valueOf(i));
+            }
+        }
+        else if (signal == false){
+            System.out.println("Threads started");
+            semaphore.release(permits);
         }
     }
 
